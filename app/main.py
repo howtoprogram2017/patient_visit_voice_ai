@@ -35,7 +35,7 @@ async def entrypoint(ctx: agents.JobContext):
     try:
         await session.start(
             room=ctx.room,
-            agent=Collector4(),
+            agent=root_agent,
             room_input_options=RoomInputOptions(
                 noise_cancellation=noise_cancellation.BVC(),
             ),
