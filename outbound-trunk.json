@@ -1,0 +1,9 @@
+{
+  "trunk": {
+    "name": "My outbound trunk",
+    "address": "bolintestapp.pstn.twilio.com",
+    "numbers": ["+19787054175"],
+    "auth_username": "Bolin",
+    "auth_password": "!AaBolin19960826"
+  }
+}
