@@ -2,7 +2,7 @@
   "trunk": {
     "name": "My inbound trunk2",
     "numbers": ["+19787054175"],
-    "allowed_numbers": ["+3322012787"],
+    "allowed_numbers": ["+3322012787"]
 
 
   }

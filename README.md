@@ -22,11 +22,11 @@ lk cloud auth
 ```
 2. setup inbound trunk
 ```
-lk inbound create inbound-trunk.json
+lk sip inbound create inbound-trunk.json
 ```
 3. set up dispatch rule
 ```aiignore
-lk dispatch create dispatch-rule.json
+lk sip dispatch create dispatch-rule.json
 ```
 
 make sure you have setup phone number and inbound trunk before running the code.
