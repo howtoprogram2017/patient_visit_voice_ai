@@ -66,7 +66,7 @@ class ChainAgent(Agent):
         userdata: MySessionInfo = self.session.userdata
         # if userdata.user_name:
         await self.session.generate_reply(
-            instructions=f"Greet {userdata.patient_name or None}"
+            instructions=f"Tell your task to user {userdata.patient_name or None}"
         )
 
 
@@ -100,7 +100,7 @@ class Collector2(ChainAgent):
         #                                    f"user name is {userdata.user_name}.")
 
     @function_tool()
-    async def record_all(self, context: RunContext[MySessionInfo], name: str, insurance_id: str):
+    async def record_all(self, context: RunContext[MySessionInfo], name: str, insurance_id: int):
         """Use this tool to record the user's insurance payer name and insurance id."""
         context.userdata.insurance_payer_name = name
         context.userdata.insurance_id = insurance_id
@@ -197,8 +197,8 @@ class Collector6(ChainAgent):
     @function_tool()
     async def record_all(self, context: RunContext[MySessionInfo], phone_number: str, email: Optional[str]):
         """Use this tool to record the phone number and optional email address"""
-        context.userdata.phone_number = phone_number
-        context.userdata.patient_phone = email
+        context.userdata.patient_phone = phone_number
+        context.userdata.patient_email = email
         return self.get_next_agent()
 
 

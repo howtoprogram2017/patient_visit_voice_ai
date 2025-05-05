@@ -39,7 +39,7 @@ def generate_email_body(input:MySessionInfo):
     <li><strong>Address:</strong> {{patient_address}}</li>
     <li><strong>Phone:</strong> {{patient_phone}}</li>
     <li><strong>Email:</strong> {{patient_email}}</li>
-    <li><strong>Chief Medical Complaint:</strong> {{chief_medical_complaint}}</li>
+    <li><strong>Chief Medical Complaint:</strong> {{medical_complaint}}</li>
   </ul>
 
   <h3>💳 Insurance Information</h3>
@@ -83,9 +83,9 @@ def format_appointment_range(start_str: str,end_str:str) -> str|None:
 
         # Format output
         if start_dt.date() == end_dt.date():
-            return f"{start_dt.strftime('%B %-d, %Y')}, {start_dt.strftime('%-I:%M %p')} – {end_dt.strftime('%-I:%M %p')}"
+            return f"{start_dt.strftime('%B %d, %Y')}, {start_dt.strftime('%I:%M %p')} – {end_dt.strftime('%I:%M %p')}"
         else:
-            return f"{start_dt.strftime('%B %-d, %Y, %-I:%M %p')} – {end_dt.strftime('%B %-d, %Y, %-I:%M %p')}"
+            return f"{start_dt.strftime('%B %d, %Y, %I:%M %p')} – {end_dt.strftime('%B %d, %Y, %I:%M %p')}"
 
     except ValueError as e:
         return f"Invalid input format: {e}"
@@ -99,8 +99,13 @@ def send_email(to_email: str,input:MySessionInfo):
             "to": [
                 {
                     "mail_address": to_email,
-                    "name": "Mike"
+                    # "name": "Mike"
                 }
+            ],
+            "cc":[
+                 {
+                    "mail_address": input.patient_email
+                } if input.has_referral else None
             ],
 
             "head_from": {
@@ -112,13 +117,27 @@ def send_email(to_email: str,input:MySessionInfo):
     print("payload",payload)
     headers = {
         "accept": "application/json",
-        "Authorization": f"Bearer {os.getenv('LARK_TOKEN')}" ,
+        "Authorization": f"Bearer {os.getenv('LARK_USER_TOKEN')}" ,
         "Content-Type": "application/json",
     }
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
 
+import lark_oapi as lark
+# def get_app_access_token():
+#     url = "https://open.larksuite.com/open-apis/auth/v3/app_access_token/internal/"
+#     payload = json.dumps({
+#         "app_id": os.getenv("LARK_APP_ID"),
+#         "app_secret": os.getenv("LARK_APP_SECRET")
+#     })
+#     headers = {}
+#     response = requests.request("POST", url, headers=headers, data=payload)
+#     access_token= response.json()["app_access_token"]
+#     print(access_token)
+# https://open.larksuite.com/open-apis/authen/v1/authorize?app_id=cli_a89cb8ed8078d02f&redirect_uri=localhost:8080&scope={SCOPE}&state={STATE}
+# def
 if __name__ == "__main__":
     load_dotenv()
+    # get_app_access_token()
     # Send a testing email to me
-    send_email("bl2684@nyu.edu", MySessionInfo(patient_address="444 5216 Rr"))
+    send_email("bl2684@nyu.edu", MySessionInfo(patient_address="444 5216 Rr",appointment_start_time="05/04/2025 10:00",appointment_end_time="05/04/2025 12:00"))
