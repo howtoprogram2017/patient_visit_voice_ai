@@ -168,7 +168,7 @@ class Collector5(ChainAgent):
                         address
                     ]
                 }
-            }, params={"key": "AIzaSyBuf8bAlRx27S5P4APiCpL7eiODq-6mKyo"})
+            }, params={"key": os.getenv("GOOGLE_MAP_API_KEY")})
 
             object = json.loads(bytearray(resp.content))["result"]
             if object["verdict"]["validationGranularity"] == "PREMISE":
